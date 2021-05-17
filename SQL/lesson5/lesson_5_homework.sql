@@ -1,20 +1,62 @@
---ÑÑ…ÐµÐ¼Ð° Ð‘Ð”: https://docs.google.com/document/d/1NVORWgdwlKepKq_b8SPRaSpraltxoMg2SIusTEN6mEQ/edit?usp=sharing
+--ñõåìà ÁÄ: https://docs.google.com/document/d/1NVORWgdwlKepKq_b8SPRaSpraltxoMg2SIusTEN6mEQ/edit?usp=sharing
 --colab/jupyter: https://colab.research.google.com/drive/1j4XdGIU__NYPVpv74vQa9HUOAkxsgUez?usp=sharing
 
 --task1 (lesson5)
--- ÐšÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð½Ð°Ñ Ñ„Ð¸Ñ€Ð¼Ð°: Ð¡Ð´ÐµÐ»Ð°Ñ‚ÑŒ view (pages_all_products), Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¹ Ð±ÑƒÐ´ÐµÑ‚ Ð¿Ð¾ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ‡Ð½Ð°Ñ Ñ€Ð°Ð·Ð±Ð¸Ð²ÐºÐ° Ð²ÑÐµÑ… Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¾Ð² (Ð½Ðµ Ð±Ð¾Ð»ÐµÐµ Ð´Ð²ÑƒÑ… Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¾Ð² Ð½Ð° Ð¾Ð´Ð½Ð¾Ð¹ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ðµ). Ð’Ñ‹Ð²Ð¾Ð´: Ð²ÑÐµ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¸Ð· laptop, Ð½Ð¾Ð¼ÐµÑ€ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñ‹, ÑÐ¿Ð¸ÑÐ¾Ðº Ð²ÑÐµÑ… ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†
+-- Êîìïüþòåðíàÿ ôèðìà: Ñäåëàòü view (pages_all_products), â êîòîðîé áóäåò ïîñòðàíè÷íàÿ ðàçáèâêà âñåõ ïðîäóêòîâ (íå áîëåå äâóõ ïðîäóêòîâ íà îäíîé ñòðàíèöå). Âûâîä: âñå äàííûå èç laptop, íîìåð ñòðàíèöû, ñïèñîê âñåõ ñòðàíèö
+create or replace view pages_all_products as ( 
+	SELECT *, 
+      CASE WHEN num % 2 = 0 THEN num/2 ELSE num/2 + 1 END AS page_num, 
+      CASE WHEN total % 2 = 0 THEN total/2 ELSE total/2 + 1 END AS num_of_pages
+FROM (
+      SELECT *, ROW_NUMBER() OVER(ORDER BY price DESC) AS num, 
+             COUNT(*) OVER() AS total 
+      FROM Laptop
+     ) X
+)
+
 
 --task2 (lesson5)
--- ÐšÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð½Ð°Ñ Ñ„Ð¸Ñ€Ð¼Ð°: Ð¡Ð´ÐµÐ»Ð°Ñ‚ÑŒ view (distribution_by_type), Ð² Ñ€Ð°Ð¼ÐºÐ°Ñ… ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð³Ð¾ Ð±ÑƒÐ´ÐµÑ‚ Ð¿Ñ€Ð¾Ñ†ÐµÐ½Ñ‚Ð½Ð¾Ðµ ÑÐ¾Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ðµ Ð²ÑÐµÑ… Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð² Ð¿Ð¾ Ñ‚Ð¸Ð¿Ñƒ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°. Ð’Ñ‹Ð²Ð¾Ð´: Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒ,
+-- Êîìïüþòåðíàÿ ôèðìà: Ñäåëàòü view (distribution_by_type), â ðàìêàõ êîòîðîãî áóäåò ïðîöåíòíîå ñîîòíîøåíèå âñåõ òîâàðîâ ïî òèïó óñòðîéñòâà. Âûâîä: ïðîèçâîäèòåëü,
 
 --task3 (lesson5)
--- ÐšÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð½Ð°Ñ Ñ„Ð¸Ñ€Ð¼Ð°: Ð¡Ð´ÐµÐ»Ð°Ñ‚ÑŒ Ð½Ð° Ð±Ð°Ð·Ðµ Ð¿Ñ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰ÐµÐ½Ñ€ view Ð³Ñ€Ð°Ñ„Ð¸Ðº - ÐºÑ€ÑƒÐ³Ð¾Ð²ÑƒÑŽ Ð´Ð¸Ð°Ð³Ñ€Ð°Ð¼Ð¼Ñƒ
+-- Êîìïüþòåðíàÿ ôèðìà: Ñäåëàòü íà áàçå ïðåäûäóùåíð view ãðàôèê - êðóãîâóþ äèàãðàììó
 
 --task4 (lesson5)
--- ÐšÐ¾Ñ€Ð°Ð±Ð»Ð¸: Ð¡Ð´ÐµÐ»Ð°Ñ‚ÑŒ ÐºÐ¾Ð¿Ð¸ÑŽ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹ ships (ships_two_words), Ð½Ð¾ Ñƒ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ ÐºÐ¾Ñ€Ð°Ð±Ð»Ñ Ð´Ð¾Ð»Ð¶Ð½Ð¾ ÑÐ¾ÑÑ‚Ð¾ÑÑ‚ÑŒ Ð¸Ð· Ð´Ð²ÑƒÑ… ÑÐ»Ð¾Ð²
+-- Êîðàáëè: Ñäåëàòü êîïèþ òàáëèöû ships (ships_two_words), íî ó íàçâàíèå êîðàáëÿ äîëæíî ñîñòîÿòü èç äâóõ ñëîâ
+create table ships_two_words as ( 
+	select 
+		*
+	from ships s 
+	where s."name" like '% %'
+)
+
 
 --task5 (lesson5)
--- ÐšÐ¾Ñ€Ð°Ð±Ð»Ð¸: Ð’Ñ‹Ð²ÐµÑÑ‚Ð¸ ÑÐ¿Ð¸ÑÐ¾Ðº ÐºÐ¾Ñ€Ð°Ð±Ð»ÐµÐ¹, Ñƒ ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ñ… class Ð¾Ñ‚ÑÑƒÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚ (IS NULL) Ð¸ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð½Ð°Ñ‡Ð¸Ð½Ð°ÐµÑ‚ÑÑ Ñ Ð±ÑƒÐºÐ²Ñ‹ "S"
+-- Êîðàáëè: Âûâåñòè ñïèñîê êîðàáëåé, ó êîòîðûõ class îòñóòñòâóåò (IS NULL) è íàçâàíèå íà÷èíàåòñÿ ñ áóêâû "S"
+
+	select 
+		*
+	from ships s 
+	where s."name" like 'S%' and s."class" is null
 
 --task6 (lesson5)
--- ÐšÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð½Ð°Ñ Ñ„Ð¸Ñ€Ð¼Ð°: Ð’Ñ‹Ð²ÐµÑÑ‚Ð¸ Ð²ÑÐµ Ð¿Ñ€Ð¸Ð½Ñ‚ÐµÑ€Ñ‹ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»Ñ = 'A' ÑÐ¾ ÑÑ‚Ð¾Ð¸Ð¼Ð¾ÑÑ‚ÑŒÑŽ Ð²Ñ‹ÑˆÐµ ÑÑ€ÐµÐ´Ð½ÐµÐ¹ Ð¿Ð¾ Ð¿Ñ€Ð¸Ð½Ñ‚ÐµÑ€Ð°Ð¼ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»Ñ = 'C' Ð¸ Ñ‚Ñ€Ð¸ ÑÐ°Ð¼Ñ‹Ñ… Ð´Ð¾Ñ€Ð¾Ð³Ð¸Ñ… (Ñ‡ÐµÑ€ÐµÐ· Ð¾ÐºÐ¾Ð½Ð½Ñ‹Ðµ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸). Ð’Ñ‹Ð²ÐµÑÑ‚Ð¸ model
+-- Êîìïüþòåðíàÿ ôèðìà: Âûâåñòè âñå ïðèíòåðû ïðîèçâîäèòåëÿ = 'A' ñî ñòîèìîñòüþ âûøå ñðåäíåé ïî ïðèíòåðàì ïðîèçâîäèòåëÿ = 'C' è òðè ñàìûõ äîðîãèõ (÷åðåç îêîííûå ôóíêöèè). Âûâåñòè model
+
+select * from (
+	select 
+		*
+		, row_number() over (order by p.price DESC) as rn 
+	from
+		printer p 
+	join 
+		product p2 
+			on p2.model = p.model 
+	where 
+		p2.maker = 'A'
+		and p.price > (select case when avg(p.price) is null then 0 else avg(p.price) end from printer p 
+					   join product p2 on p2.model = p.model 
+					   where p2.maker = 'C')
+) a
+where rn <=3
+    
+	

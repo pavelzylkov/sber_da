@@ -277,16 +277,18 @@ create or replace view sunk_ships_by_classes as
 			when s."class" is null then '0'
 			else s."class" 
 		end clas
-		, count(*) 
+		, count(*) cnt
 	from outcomes o  
 	left join ships s on s."name" = o.ship 
 	where o."result" = 'sunk'
 	group by s."class"
 ) a )
 drop view sunk_ships_by_classes
+select * from sunk_ships_by_classes
 --task11 (lesson4)
 -- Корабли: По предыдущему view (sunk_ships_by_classes) сделать график в colab (X: class, Y: count)
-
+select
+from 
 --task12 (lesson4)
 -- Корабли: Сделать копию таблицы classes (название classes_with_flag) и добавить в нее flag: если количество орудий больше или равно 9 - то 1, 
 --иначе 0
@@ -317,3 +319,14 @@ from ships s
 where s."name" like '% %'
 --task16 (lesson4)
 -- Корабли: Построить график с количеством запущенных на воду кораблей и годом запуска (X: year, Y: count)
+
+request = """
+select
+s2.launched 
+,count(*) cnt
+from ships s2 
+group by s2.launched 
+"""
+df = pd.read_sql_query(request, conn)
+fig = px.bar(x=df.launched.to_list(), y=df.cnt.to_list(), labels={'x':'year', 'y':'count'})
+fig.show()
