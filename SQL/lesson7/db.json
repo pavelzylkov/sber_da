@@ -1,0 +1,1 @@
+{"_default": {"1": {"lesson3_1": "select o.ship, s.\"class\" from outcomes o left join ships s on s.\"name\"  = o.ship where s.\"class\" is null"}, "2": {"int": 1, "char": "b"}}}
